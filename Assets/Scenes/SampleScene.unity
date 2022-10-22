@@ -920,6 +920,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cc: {fileID: 1691146485}
   cam: {fileID: 963194227}
+  audioControl: 0
+  sampleWin: 64
+  loudnessSensibility: 50
+  interactThreshold: 0.3
+  movementThreshold: 0.3
+  micName: 
+  micClip: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   moveSpd: 7.5
   yaw: 0
