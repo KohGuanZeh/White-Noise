@@ -10,20 +10,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool audioControl;
     [SerializeField] int sampleWin = 64; // Data to collect before clip pos
     [SerializeField] float loudnessSensibility = 50;
-    [SerializeField] float interactThreshold = 0.5f;
+    [SerializeField] float stopThreshold = 0.5f;
     [SerializeField] float movementThreshold = 1.0f;
+    [SerializeField] float maxMovementThreshold = 1.5f;
     [SerializeField] string micName;
     [SerializeField] AudioClip micClip;
+    [SerializeField] bool isMoving = false;
 
     [Header("Movement")]
     [SerializeField] Vector3 velocity;
-    [SerializeField] float moveSpd = 7.5f;
+    [SerializeField] float moveSpd = 0;
+    [SerializeField] float minMoveSpd = 7.5f;
+    [SerializeField] float maxMoveSpd = 10f;
 
     [Header("Camera")]
     [SerializeField] float yaw;
     [SerializeField] float pitch;
     [SerializeField] float horLookSpeed = 1;
     [SerializeField] float vertLookSpeed = 1;
+
+    [Header("Lamp")]
+    [SerializeField] Lamp lamp;
 
     void Start() {
         if (audioControl) {
@@ -68,18 +75,25 @@ public class PlayerController : MonoBehaviour
             Vector3 camForward = Vector3.Scale(transform.forward, new Vector3(1, 0, 1)).normalized;
             Vector3 camRight = Vector3.Scale(transform.right, new Vector3(1, 0, 1)).normalized;
             dir = (vert * camForward + hor * camRight).normalized;
-            velocity = dir * moveSpd;
+            velocity = dir * minMoveSpd;
+        } else if (Input.GetMouseButtonDown(1)) {
+            isMoving = !isMoving;
+            moveSpd = isMoving ? minMoveSpd : 0;
+            velocity = transform.forward * moveSpd;
         } else {
             float inputVolume = AudioInputVolume(Microphone.GetPosition(micName), micClip) * loudnessSensibility;
-            velocity = Vector3.zero;
 
             if (inputVolume >= movementThreshold) {
-                velocity = transform.forward * moveSpd;
-            } else if (inputVolume >= interactThreshold) {
-                // Interact with Object
+                isMoving = true;
+                moveSpd = Mathf.Lerp(moveSpd, maxMoveSpd, (inputVolume - movementThreshold) / (maxMovementThreshold - movementThreshold));
+            } else if (inputVolume >= stopThreshold) {
+                if (isMoving) {
+                    isMoving = false;
+                    moveSpd = 0;
+                }
             }
-
-            print (inputVolume);
+            //print(inputVolume);
+            velocity = transform.forward * moveSpd;
         }
 
         // Set Gravity
@@ -109,5 +123,13 @@ public class PlayerController : MonoBehaviour
             volume += Mathf.Abs(audioData[i]);
         }
         return volume / sampleWin;
+    }
+
+    public void RefillLamp(float lifeSpanGain) {
+        lamp.gainAmt += lifeSpanGain;
+    }
+
+    public void DepleteLamp(float depleteAmt) {
+        lamp.DepleteLamp(depleteAmt);
     }
 }
