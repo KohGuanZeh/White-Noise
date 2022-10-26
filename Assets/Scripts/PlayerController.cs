@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
     [Header("Lamp")]
     [SerializeField] Lamp lamp;
 
+    [Header("Enemy")]
+    [SerializeField] float respawnTimer;
+    [SerializeField] bool respawnEnemy;
+    [SerializeField] Enemy enemy;
+
     void Start() {
         if (audioControl) {
             InitialiseMic();
@@ -100,6 +105,14 @@ public class PlayerController : MonoBehaviour
         velocity.y = -9.81f;
 
         cc.Move(velocity * Time.deltaTime);
+
+        if (respawnEnemy && respawnTimer > 0) {
+            respawnTimer -= Time.deltaTime;
+            if (respawnTimer <= 0) {
+                respawnEnemy = false;
+                enemy.gameObject.SetActive(true);
+            }
+        }
     }
 
     // Credits to https://www.youtube.com/watch?v=dzD0qP8viLw
@@ -131,5 +144,10 @@ public class PlayerController : MonoBehaviour
 
     public void DepleteLamp(float depleteAmt) {
         lamp.DepleteLamp(depleteAmt);
+    }
+
+    public void RespawnEnemy() {
+        respawnEnemy = true;
+        respawnTimer = 10f;
     }
 }
