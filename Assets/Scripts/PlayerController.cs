@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
                     moveSpd = 0;
                 }
             }
-            //print(inputVolume);
+            print(inputVolume);
             velocity = transform.forward * moveSpd;
         }
 
@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < sampleWin; i++) {
             volume += Mathf.Abs(audioData[i]);
         }
-        print(volume / sampleWin);
+        //print(volume / sampleWin);
         return volume / sampleWin;
     }
 
