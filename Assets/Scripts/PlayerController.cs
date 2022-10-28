@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < sampleWin; i++) {
             volume += Mathf.Abs(audioData[i]);
         }
+        print(volume / sampleWin);
         return volume / sampleWin;
     }
 
