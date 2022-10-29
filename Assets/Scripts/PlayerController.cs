@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
     [Header("Player Controller")]
     [SerializeField] CharacterController cc;
     [SerializeField] Camera cam;
@@ -51,19 +50,18 @@ public class PlayerController : MonoBehaviour
         // Switch Audio Control
         if (Input.GetKeyDown(KeyCode.P)) {
             audioControl = !audioControl;
-            
+
             if (audioControl) {
                 InitialiseMic();
-            } else if (micName != "") {
-                Microphone.End(micName);
-                micName = "";
+            } else {
+                DestroyMic();
             }
         }
 
         // Player Rotation
         yaw += horLookSpeed * Input.GetAxis("Mouse X");
-		pitch -= vertLookSpeed * Input.GetAxis("Mouse Y"); //-Since 0-1 = 359 and 359 is rotation upwards;
-		pitch = Mathf.Clamp(pitch, -90, 90); //Setting Angle Limits
+        pitch -= vertLookSpeed * Input.GetAxis("Mouse Y"); //-Since 0-1 = 359 and 359 is rotation upwards;
+        pitch = Mathf.Clamp(pitch, -90, 90); //Setting Angle Limits
 
         transform.eulerAngles = new Vector3(0, yaw, 0);
         cam.transform.localEulerAngles = new Vector3(pitch, 0, 0);
@@ -117,8 +115,17 @@ public class PlayerController : MonoBehaviour
 
     // Credits to https://www.youtube.com/watch?v=dzD0qP8viLw
     void InitialiseMic() {
-        micName = Microphone.devices[0];
-        micClip = Microphone.Start(micName, true, 1, AudioSettings.outputSampleRate);
+        if (micName == ""){
+            micName = Microphone.devices[0];
+            micClip = Microphone.Start(micName, true, 1, AudioSettings.outputSampleRate);
+        }
+    }
+
+    public void DestroyMic() {
+        if (micName != "") {
+            Microphone.End(micName);
+            micName = "";
+        }
     }
 
     float AudioInputVolume(int clipPos, AudioClip input) {
@@ -137,6 +144,13 @@ public class PlayerController : MonoBehaviour
         }
         //print(volume / sampleWin);
         return volume / sampleWin;
+    }
+
+    public float AudioInputVolumeWrapped(float loudnessSensibility = 50) {
+        if (micName == "") {
+            InitialiseMic();
+        }
+        return AudioInputVolume(Microphone.GetPosition(micName), micClip) * loudnessSensibility;
     }
 
     public void RefillLamp(float lifeSpanGain) {
