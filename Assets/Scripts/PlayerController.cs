@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] Enemy enemy;
 
     void Start() {
+        yaw = transform.rotation.eulerAngles.y;
         if (audioControl) {
             InitialiseMic();
         }

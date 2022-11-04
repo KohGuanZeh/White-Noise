@@ -13,9 +13,11 @@ public class Enemy : MonoBehaviour {
     [SerializeField] EnemyPoints movementPoints;
     public int currentPoint;
     public bool triggered = false;
+    public AudioSource audioSource;
 
     void Start() {
         objColl = GetComponent<Collider>();
+        audioSource = GetComponent<AudioSource>();
         player = FindObjectOfType<PlayerController>();
     }
 
@@ -28,6 +30,12 @@ public class Enemy : MonoBehaviour {
             point += 1;
         }
         return point > movementPoints.points.Length ? 0 : point;
+    }
+
+    public void Trigger()
+    {
+        audioSource.Play();
+        triggered = true;
     }
 
     void Update() {

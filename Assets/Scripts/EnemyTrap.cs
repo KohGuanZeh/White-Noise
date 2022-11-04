@@ -13,7 +13,7 @@ public class EnemyTrap : MonoBehaviour
 
     void OnTriggerEnter(Collider coll) {
         if (coll.tag == "Player") {
-            enemy.triggered = true;
+            enemy.Trigger();
             objColl.enabled = false;
         }
     }
