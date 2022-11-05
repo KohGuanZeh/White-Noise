@@ -9,10 +9,10 @@ public class LightFlicker : MonoBehaviour
     public LightEnemyRadius lightEnemyRadius;
     public float enemiesAroundLightMinDistance = 5;
     public float enemiesAroundLightMaxDistance = 50;
-    public float minInterval;
-    public float maxInterval;
-    public float minFlickerInterval;
-    public float maxFlickerInterval;
+    public float minInterval = 5;
+    public float maxInterval = 10;
+    public float minFlickerInterval = 0.1f;
+    public float maxFlickerInterval = 0.2f;
     float next;
 
     public AudioSource audioSource;
@@ -43,6 +43,8 @@ public class LightFlicker : MonoBehaviour
         if (lightSource.gameObject.activeSelf)
         {
             allEnemiesAroundDistanceNormalized = lightEnemyRadius.AllEnemiesAroundDistanceNormalized(enemiesAroundLightMinDistance, enemiesAroundLightMaxDistance);
+            print(name);
+            print(allEnemiesAroundDistanceNormalized);
             rendererMaterial.material.SetColor("_EmissiveColor", _emissiveColor * allEnemiesAroundDistanceNormalized);
             lightEnemyRadius.UpdateLight(allEnemiesAroundDistanceNormalized * lightEnemyRadius.originalIntensity);
         }

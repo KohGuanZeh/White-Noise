@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
     public LightEnemyRadius lightEnemyRadius;
     public float enemiesAroundLightMinDistance = 5;
     public float enemiesAroundLightMaxDistance = 50;
+    public AudioSource audioSource;
 
     void Start() {
         yaw = transform.rotation.eulerAngles.y;
@@ -113,7 +114,16 @@ public class PlayerController : MonoBehaviour {
         cc.Move(velocity * Time.deltaTime);
 
         float enemiesAroundNormalized = lightEnemyRadius.AllEnemiesAroundDistanceNormalized(enemiesAroundLightMinDistance, enemiesAroundLightMaxDistance);
-        noiseRenderer.material.SetFloat("_Opacity", Mathf.Clamp(0.5f-enemiesAroundNormalized, 0, 1));
+        float normalized = Mathf.Clamp01((1 - enemiesAroundNormalized) - 0.5f) / 0.5f;
+        noiseRenderer.material.SetFloat("_Opacity", normalized);
+        if (normalized > 0f) {
+            audioSource.volume = normalized;
+            if (!audioSource.isPlaying){
+                audioSource.Play();
+            }
+        } else if (audioSource.isPlaying) {
+            audioSource.Pause();
+        }
 
         lightEnemyRadius.UpdateLight(enemiesAroundNormalized * lamp.light.intensity);
 

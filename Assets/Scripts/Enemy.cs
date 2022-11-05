@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour {
     public int currentPoint;
     public bool triggered = false;
     public AudioSource audioSource;
+    public bool despawnAfterCollide = true;
+    public bool despawnAfterEnd = true;
 
     void Start() {
         objColl = GetComponent<Collider>();
@@ -47,8 +49,9 @@ public class Enemy : MonoBehaviour {
         }
 
         currentPoint = GetNextPoint(currentPoint);
-        if (currentPoint == 0) {
+        if (currentPoint == 0 && despawnAfterEnd) {
             gameObject.SetActive(false);
+            return;
         }
 
         float micVolume = player.AudioInputVolumeWrapped();

@@ -8,7 +8,9 @@ public class EnemyCollider : MonoBehaviour
     void OnTriggerEnter(Collider coll) {
         if (coll.gameObject.tag == "Player") {
             coll.GetComponent<PlayerController>().DepleteLamp(enemy.depleteAmt);
-            enemy.gameObject.SetActive(false);
+            if (enemy.despawnAfterCollide){
+                enemy.gameObject.SetActive(false);
+            }
         }
     }
 }

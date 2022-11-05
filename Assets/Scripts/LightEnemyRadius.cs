@@ -38,7 +38,7 @@ public class LightEnemyRadius : MonoBehaviour
         {
             if (c.tag == "Enemy")
             {
-                float scale = (Vector3.Distance(transform.position, c.transform.position) - minDistance) / (maxDistance - minDistance);
+                float scale = (Mathf.Clamp(Vector3.Distance(transform.position, c.transform.position), minDistance, maxDistance) - minDistance) / (maxDistance - minDistance);
                 overallScale *= scale;
             }
         }
