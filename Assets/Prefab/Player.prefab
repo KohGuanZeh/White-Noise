@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2002812287888937505}
   - component: {fileID: 2002812287888937509}
   - component: {fileID: 2002812287888937510}
+  - component: {fileID: 1309624285}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002812287888937504}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -56.7, y: 1, z: -39.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -150,10 +151,26 @@ MonoBehaviour:
   pitch: 0
   horLookSpeed: 3
   vertLookSpeed: 2
-  lamp: {fileID: 2002812288355834177}
+  lamp: {fileID: 2002812288973008048}
   respawnTimer: 0
   respawnEnemy: 0
   enemy: {fileID: 0}
+  lightEnemyRadius: {fileID: 1309624285}
+  enemiesAroundLightMinDistance: 5
+  enemiesAroundLightMaxDistance: 50
+--- !u!114 &1309624285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002812287888937504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819de58cd36416743888bc518d771fc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalIntensity: 0
 --- !u!1 &2002812288355834206
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,8 +729,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 73.95492
-  m_Range: 160.21747
+  m_Intensity: 151.66423
+  m_Range: 100
   m_SpotAngle: 93.5
   m_InnerSpotAngle: 5
   m_CookieSize: 10
@@ -774,7 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bced9251d5f0194d9cbdf0bb041703f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 2002812288973008049}
+  light: {fileID: 2002812288973008015}
   minRange: 0
   maxRange: 100
   minIntensity: 10
@@ -795,7 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 146.2868
+  m_Intensity: 300
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 50

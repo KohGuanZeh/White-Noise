@@ -5,7 +5,7 @@ using UnityEngine.Rendering.HighDefinition;
 
 public class Lamp : MonoBehaviour
 {
-    [SerializeField] HDAdditionalLightData light;
+    [SerializeField] public HDAdditionalLightData light;
     [SerializeField] float minRange = 0;
     [SerializeField] float maxRange = 50;
     [SerializeField] float minIntensity = 0;

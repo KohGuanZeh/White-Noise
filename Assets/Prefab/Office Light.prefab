@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2183218592205799664}
   - component: {fileID: 2183218592205799661}
   - component: {fileID: 2183218592205799660}
+  - component: {fileID: 1693172908}
   m_Layer: 0
   m_Name: Office Light
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2183218592205799667}
-  m_LocalRotation: {x: -0.41661403, y: -0, z: -0, w: 0.90908355}
+  m_LocalRotation: {x: -0.41661412, y: 0, z: 0, w: 0.9090834}
   m_LocalPosition: {x: 0, y: 9.531862, z: 283.03293}
   m_LocalScale: {x: 1.8662, y: 0.09832541, z: 1.7346328}
   m_ConstrainProportionsScale: 0
@@ -112,7 +113,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1042c9eb447db0f4a93920b060e843f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightSource: {fileID: 2183218593094522834}
+  lightSource: {fileID: 2183218593094522837}
+  lightEnemyRadius: {fileID: 1693172908}
+  enemiesAroundLightMinDistance: 5
+  enemiesAroundLightMaxDistance: 50
   minInterval: 5
   maxInterval: 10
   minFlickerInterval: 0.1
@@ -214,6 +218,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1693172908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183218592205799667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819de58cd36416743888bc518d771fc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalIntensity: 0
 --- !u!1 &2183218593094522839
 GameObject:
   m_ObjectHideFlags: 0

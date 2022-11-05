@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
     [Header("Player Controller")]
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float pitch;
     [SerializeField] float horLookSpeed = 1;
     [SerializeField] float vertLookSpeed = 1;
+    public Renderer noiseRenderer;
 
     [Header("Lamp")]
     [SerializeField] Lamp lamp;
@@ -35,12 +38,16 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float respawnTimer;
     [SerializeField] bool respawnEnemy;
     [SerializeField] Enemy enemy;
+    public LightEnemyRadius lightEnemyRadius;
+    public float enemiesAroundLightMinDistance = 5;
+    public float enemiesAroundLightMaxDistance = 50;
 
     void Start() {
         yaw = transform.rotation.eulerAngles.y;
         if (audioControl) {
             InitialiseMic();
         }
+        lightEnemyRadius.Setup(lamp.light);
     }
 
     void Update() {
@@ -105,6 +112,11 @@ public class PlayerController : MonoBehaviour {
 
         cc.Move(velocity * Time.deltaTime);
 
+        float enemiesAroundNormalized = lightEnemyRadius.AllEnemiesAroundDistanceNormalized(enemiesAroundLightMinDistance, enemiesAroundLightMaxDistance);
+        noiseRenderer.material.SetFloat("_Opacity", Mathf.Clamp(0.5f-enemiesAroundNormalized, 0, 1));
+
+        lightEnemyRadius.UpdateLight(enemiesAroundNormalized * lamp.light.intensity);
+
         if (respawnEnemy && respawnTimer > 0) {
             respawnTimer -= Time.deltaTime;
             if (respawnTimer <= 0) {
@@ -155,6 +167,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void RefillLamp(float lifeSpanGain) {
+        
         lamp.gainAmt += lifeSpanGain;
     }
 
