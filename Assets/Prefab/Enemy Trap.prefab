@@ -56,6 +56,8 @@ MonoBehaviour:
   currentPoint: 0
   triggered: 0
   audioSource: {fileID: 0}
+  despawnAfterCollide: 1
+  despawnAfterEnd: 1
 --- !u!82 &2316623738140701700
 AudioSource:
   m_ObjectHideFlags: 0
